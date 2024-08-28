@@ -4,8 +4,8 @@ import Slider, { Settings } from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { useRef, useState } from 'react';
-import Card from '../../../presentation/Card';
 import { useInfiniteContents } from './useInfiniteContents';
+import Card from '../../../presentation/Card';
 
 const LIMIT = 10;
 

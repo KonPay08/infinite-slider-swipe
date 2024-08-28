@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { ContentsResponse } from '../../shared/type';
-import { Content } from '../../shared/type';
+import { ContentsResponse } from '../../../shared/type';
+import { Content } from '../../../shared/type';
 
 // 最大30件までしか取得しない
 const TOTAL_CONTENTS = 30;
@@ -14,7 +14,7 @@ export async function GET(request: Request): Promise<NextResponse<ContentsRespon
   const end = Math.min(start + limit, TOTAL_CONTENTS);
 
   const contents: Content[] = Array.from({ length: end - start }, (_, i) => ({
-    id: start + i,
+    id: start + i + 1,
     content: `Content ${start + i + 1}`,
   }));
 

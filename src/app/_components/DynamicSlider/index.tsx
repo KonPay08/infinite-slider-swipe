@@ -2,7 +2,7 @@
 
 import Slider from 'react-slick';
 import { Content, ContentsResponse } from "../../../shared/type";
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Card from '../../../presentation/Card';
 import { useQueryContents } from '../ContentSlider/useQueryContents';
 import { useQueriesContents } from '../ContentSlider/useQueriesContents';
@@ -84,7 +84,7 @@ const DynamicSlider = () => {
 
   // スライド時に新しいコンテンツをセットする
   useEffect(() => {
-    if(isSlide && fetchContents && isFetching) {
+    if(isSlide && fetchContents && !isFetching) {
       updateContents(fetchContents);
       setIsSlide(false);
       return;
@@ -98,8 +98,8 @@ const DynamicSlider = () => {
     }
   }, [fetchContents, isFetching, isSlide, updateContents, contents, isFetched]);
 
-  return isFetched ? (
-    <div className="w-[500px] mx-auto mt-10">
+  return (
+    <div className="w-full mx-auto mt-10 max-w-[500px] px-2">
       <button
           onClick={handleModeChange}
           className="px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 transition duration-300"
@@ -124,7 +124,7 @@ const DynamicSlider = () => {
               ))}
       </Slider>
     </div>
-  ) : null;
+  );
 }
 
 export default DynamicSlider;

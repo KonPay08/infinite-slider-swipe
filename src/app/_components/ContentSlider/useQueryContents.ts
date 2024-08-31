@@ -8,4 +8,4 @@ export const useQueryContents = (pageParam: number, limit: number, enabled: bool
     staleTime: Infinity,
     enabled,
   })
-}
+};

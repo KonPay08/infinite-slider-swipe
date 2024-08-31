@@ -60,6 +60,12 @@ const DynamicSlider = () => {
     slidesToScroll: 1,
     centerMode: true,
     afterChange: handleSliderChange,
+    swipeToSlide: !isSlide,
+    accessibility: !isSlide,
+    onInit: () => {
+      // スライダーコンポーネント初期化後にスライド中を解除
+      setIsSlide(false);
+    }
   };
 
   const updateContents = useCallback((fetchContents: (ContentsResponse | undefined)[]) => {
@@ -82,21 +88,30 @@ const DynamicSlider = () => {
     }
   }, [initialFetchContents, mode, limit]);
 
-  // スライド時に新しいコンテンツをセットする
-  useEffect(() => {
-    if(isSlide && fetchContents && !isFetching) {
-      updateContents(fetchContents);
-      setIsSlide(false);
-      return;
-    };
-  }, [fetchContents, isFetching, isSlide, updateContents]);
-
   // // 初回表示データをセットする
   useEffect(() => {
     if(isFetched && contents.length === 0) {
       updateContents(fetchContents);
     }
   }, [fetchContents, isFetching, isSlide, updateContents, contents, isFetched]);
+
+  // スライド時に新しいコンテンツをセットする
+  useEffect(() => {
+    if(isSlide && fetchContents && !isFetching) {
+      updateContents(fetchContents);
+    };
+  }, [fetchContents, isFetching, isSlide, updateContents]);
+
+  // スライド終了後にスライダーに再度フォーカスを当てる
+  useEffect(() => {
+    if(!isSlide) {
+      const sliderElement = sliderRef.current?.innerSlider?.list;
+      if (sliderElement) {
+        sliderElement.setAttribute('tabindex', '0');
+        sliderElement.focus();
+      }
+    }
+  }, [isSlide]);
 
   return (
     <div className="w-full mx-auto mt-10 max-w-[500px] px-2">

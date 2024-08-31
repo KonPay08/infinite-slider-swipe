@@ -21,5 +21,12 @@ export async function GET(request: Request): Promise<NextResponse<ContentsRespon
   // nextPage を null に設定して、これ以上のページがないことを示す
   const nextPage = end < TOTAL_CONTENTS ? page + 1 : null;
 
-  return NextResponse.json({ contents, nextPage, total: TOTAL_CONTENTS });
+  return NextResponse.json(
+    { contents, nextPage, total: TOTAL_CONTENTS },
+    {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    }
+  );
 }
